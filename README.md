@@ -16,7 +16,6 @@ Iniciar o AWS CLI
 
 - `aws configure` e  inserir o AWS Access Key ID e AWS Secret Access Key
 
+Feito isso será criado um diretorio no root de credentials`~/.aws/credentials`
 
-# Variaveis de ambiente
-
-`export aws_profile=<nome_do_profile>`
+[Altere esse arquivo e coloque o nome do seu profile criado, linha:2](main.tf)

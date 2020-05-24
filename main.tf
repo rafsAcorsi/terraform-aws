@@ -1,7 +1,6 @@
 provider "aws" {
-  region  = "${var.region}"
-  version = "~> 2.7"
-//  profile = "brrafs"
+  profile = "acorsi"
+  region = "us-east-1"
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
@@ -25,18 +24,18 @@ EOF
 }
 
 resource "aws_lambda_function" "test_lambda" {
-  filename      = "main.zip"
-  function_name = "teste"
-  role          = "${aws_iam_role.iam_for_lambda.arn}"
-  handler       = "main.py"
+  filename      = var.lambda_filename
+  function_name = var.lambda_function_name
+  role          = aws_iam_role.iam_for_lambda.arn
+  handler       = var.lambda_handler
 
-  source_code_hash = "${filebase64sha256("main.zip")}"
+  source_code_hash = filebase64sha256("main.zip")
 
   runtime = "python3.7"
 
   environment {
     variables = {
-      foo = "dev"
+      env = "dev"
     }
   }
 }

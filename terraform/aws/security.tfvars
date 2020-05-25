@@ -1,0 +1,5 @@
+aws_profile = "acorsi"
+db_name = "defaultDB"
+db_user_name = "admin"
+db_user_password = "1a2b3c4d5!"
+bucket_name = "log-watcher"

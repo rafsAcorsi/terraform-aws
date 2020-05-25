@@ -1,5 +1,6 @@
 *.tfstate*
-*.terraform/*
+**/.terraform/*
 response.json
 *.idea*
 *.DS_Store*
+*terraform/aws/security.tfvars

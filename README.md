@@ -1,6 +1,5 @@
 # Pré-requisitos
 
-- [Docker para rodar localmente](https://docs.docker.com/get-docker/)
 - [Terraform](https://www.terraform.io/downloads.html)
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html)
 - [Criar usuário ADM no IAM (marcar a opçāo "Programmatic access")](https://console.aws.amazon.com/iam/home#/users$new?step=details)
@@ -9,7 +8,7 @@
 Policy Name| 
 | -------------             |
 |AdministratorAccess        |
-
+---
 Passos pós instalaçāo CLI, somente executar em caso de primeira instalaçāo
 
 Iniciar o AWS CLI
@@ -18,4 +17,6 @@ Iniciar o AWS CLI
 
 Feito isso será criado um diretorio no root de credentials`~/.aws/credentials`
 
-[Altere esse arquivo e coloque o nome do seu profile criado, linha:2](main.tf)
+Ao executar o comando para plan e apply será solicitado o nome do seu profile:
+
+---

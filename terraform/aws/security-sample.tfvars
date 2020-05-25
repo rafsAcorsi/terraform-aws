@@ -1,0 +1,5 @@
+aws_profile = "my-profile"
+db_name = "db-name"
+db_user_name = "db-user-name"
+db_user_password = "db-password"
+bucket_name = "bucket-name"

@@ -16,6 +16,7 @@ resource "aws_db_instance" "db_default" {
   password = var.db_user_password
   skip_final_snapshot = "true"
   publicly_accessible = true
+  backup_retention_period = 0
 }
 
 resource "aws_db_option_group" "db_options" {

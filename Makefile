@@ -4,19 +4,23 @@ help:
 	@echo ""
 	@echo "-- Help Menu"
 	@echo ""
-	@echo "   1. make apply                             - Run terraform apply"
-	@echo "   2. make destroy                           - Destroy terraform destroy"
-	@echo "   3. make invoke                            - Invoke Lambda"
-	@echo "   3. make zip                            	- Zip lambda function"
+	@echo "   1. make init                              - Init Terraform config"
+	@echo "   2. make apply                             - Run terraform apply"
+	@echo "   3. make destroy                           - Destroy terraform destroy"
+	@echo "   4. make invoke                            - Invoke Lambda"
+	@echo "   5. make zip                               - Zip lambda function"
 
+.PHONY: init
+init:
+	terraform init terraform/aws
 
 .PHONY: apply
 apply:
-	terraform apply
+	terraform apply terraform/aws
 
 .PHONY: destroy
 destroy:
-	terraform destroy
+	terraform destroy terraform/aws
 
 .PHONY: invoke
 invoke:
@@ -24,4 +28,4 @@ invoke:
 
 .PHONY: zip
 zip:
-	zip -j main.zip lambda/main.py
+	zip -j lambda/main.zip lambda/main.py

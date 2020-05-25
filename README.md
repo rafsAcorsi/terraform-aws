@@ -20,3 +20,5 @@ Feito isso será criado um diretorio no root de credentials`~/.aws/credentials`
 Ao executar o comando para plan e apply será solicitado o nome do seu profile:
 
 ---
+
+Copiar e renomear o arquivo [security-sample.tfvars](terraform/aws/security-sample.tfvars) para security.tfvars e editar as variaveis

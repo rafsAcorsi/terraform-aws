@@ -16,11 +16,11 @@ init:
 
 .PHONY: apply
 apply:
-	terraform apply terraform/aws
+	terraform apply -var-file=terraform/aws/security.tfvars terraform/aws
 
 .PHONY: destroy
 destroy:
-	terraform destroy terraform/aws
+	terraform destroy -var-file=terraform/aws/security.tfvars terraform/aws
 
 .PHONY: invoke
 invoke:

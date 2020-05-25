@@ -1,3 +1,7 @@
+variable "app_name" {
+  default = "hot"
+}
+
 variable "lambda_function_name" {
   default = "log_watcher"
 }
@@ -18,9 +22,9 @@ variable env {
   type = map(string)
   description = "Map for environment"
   default = {
-    default = "Default Env"
-    dev = "Dev Env"
-    prod = "Prod Env"
+    default = "default"
+    dev = "development"
+    prod = "production"
   }
 }
 
@@ -37,11 +41,22 @@ variable default_ingress {
     3306 = {
       description = "Inbound for mysql",
       cidr_blocks = [
-        "127.0.0.1/32"]
+        "0.0.0.0/32"]
     }
   }
 }
 
+variable "db_engine" {
+  default = "mysql"
+}
+
+variable "db_version" {
+  default = "5.7"
+}
+
+variable "map_public_ip_on_launch" {
+  default = true
+}
 
 # Inside security.tfvars
 variable "aws_profile" {}

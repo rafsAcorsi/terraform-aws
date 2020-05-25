@@ -3,5 +3,5 @@ output my-env {
 }
 
 output rds-id {
-  value = aws_security_group.rds-cg.id
+  value = aws_security_group.default.id
 }

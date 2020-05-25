@@ -1,12 +1,5 @@
-variable "db_engine" {
-  default = "mysql"
-}
-
-variable "db_version" {
-  default = "5.7"
-}
-
 resource "aws_db_instance" "db_default" {
+  identifier = "mysql"
   allocated_storage = 20
   engine = var.db_engine
   engine_version = var.db_version
@@ -17,6 +10,10 @@ resource "aws_db_instance" "db_default" {
   skip_final_snapshot = "true"
   publicly_accessible = true
   backup_retention_period = 0
+  apply_immediately = true
+  option_group_name = aws_db_option_group.db_options.name
+  vpc_security_group_ids = [aws_security_group.default.id]
+
 }
 
 resource "aws_db_option_group" "db_options" {
@@ -28,15 +25,16 @@ resource "aws_db_option_group" "db_options" {
   option {
     option_name = "MARIADB_AUDIT_PLUGIN"
 
-    option_settings = [
-      {
-        name = "SERVER_AUDIT_EVENTS"
-        value = "CONNECT"
-      },
-      {
-        name = "SERVER_AUDIT_FILE_ROTATIONS"
-        value = "20"
-      },
-    ]
+    option_settings {
+      name = "SERVER_AUDIT_EVENTS"
+      value = "CONNECT"
+    }
+
+    option_settings {
+      name = "SERVER_AUDIT_FILE_ROTATIONS"
+      value = "20"
+    }
+
   }
+
 }

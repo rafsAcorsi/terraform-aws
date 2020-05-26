@@ -2,6 +2,18 @@ output my-env {
   value = local.exp_env
 }
 
-output rds-id {
+output aws-security-id {
   value = aws_security_group.default.id
+}
+
+output bucket-name {
+  value = aws_s3_bucket.b.id
+}
+
+output db-name {
+  value = aws_db_instance.db_default.name
+}
+
+output vpc-name {
+  value = aws_security_group.default.vpc_id
 }

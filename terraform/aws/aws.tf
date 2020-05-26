@@ -15,6 +15,7 @@ data "aws_subnet_ids" "all" {
 resource "aws_security_group" "default" {
   name = "${var.app_name}-${local.exp_env}"
   description = "SG for access RDS"
+  vpc_id = data.aws_vpc.default.id
 
   dynamic "ingress" {
     for_each = var.default_ingress
@@ -25,9 +26,5 @@ resource "aws_security_group" "default" {
       protocol = "tcp"
       cidr_blocks = ingress.value["cidr_blocks"]
     }
-  }
-
-  tags = {
-    Name = "RDS-CG"
   }
 }

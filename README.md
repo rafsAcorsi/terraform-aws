@@ -6,7 +6,7 @@
 
 Passos pós instalaçāo do AWS CLI, obs: somente executar em caso de primeira instalaçāo
 
-####Iniciar o AWS CLI
+#### Iniciar o AWS CLI
 
 - `aws configure` e  inserir o AWS Access Key ID e AWS Secret Access Key
 

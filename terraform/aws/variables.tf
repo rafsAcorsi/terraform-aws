@@ -3,7 +3,7 @@ variable "app_name" {
 }
 
 variable "lambda_function_name" {
-  default = "log_watcher"
+  default = "log-watcher"
 }
 
 variable "lambda_filename" {
@@ -23,8 +23,8 @@ variable env {
   description = "Map for environment"
   default = {
     default = "default"
-    dev = "development"
-    prod = "production"
+    dev = "dev"
+    prod = "prod"
   }
 }
 
@@ -52,10 +52,6 @@ variable "db_engine" {
 
 variable "db_version" {
   default = "5.7"
-}
-
-variable "map_public_ip_on_launch" {
-  default = true
 }
 
 # Inside security.tfvars

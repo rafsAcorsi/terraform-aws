@@ -1,10 +1,10 @@
 resource "aws_db_instance" "db_default" {
-  identifier = "mysql"
+  identifier = "${var.db_name}-${local.exp_env}"
   allocated_storage = 20
   engine = var.db_engine
   engine_version = var.db_version
   instance_class = "db.t2.micro"
-  name = var.db_name
+  name = "${var.db_name}${local.exp_env}"
   username = var.db_user_name
   password = var.db_user_password
   skip_final_snapshot = "true"

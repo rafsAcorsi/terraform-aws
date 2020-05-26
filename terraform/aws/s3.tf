@@ -1,10 +1,10 @@
 resource "aws_s3_bucket" "b" {
-  bucket = var.bucket_name
+  bucket = "${var.bucket_name}-${local.exp_env}"
   acl = "public-read-write"
   force_destroy = "true"
 
   tags = {
     Name = "Log Watcher"
-    Environment = "Dev"
+    Environment = local.exp_env
   }
 }

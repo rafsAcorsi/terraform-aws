@@ -17,6 +17,7 @@ resource "aws_lambda_function" "log_watcher" {
       BUCKET_NAME = "${var.bucket_name}-${local.exp_env}}"
       DB_NAME = "${var.db_name}${local.exp_env}"
       DB_IDENTIFIER = "${var.db_name}-${local.exp_env}"
+      PROFILE_NAME = var.aws_profile
     }
   }
 }

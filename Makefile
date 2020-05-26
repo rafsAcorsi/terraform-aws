@@ -24,7 +24,7 @@ destroy:
 
 .PHONY: invoke
 invoke:
-	aws lambda invoke --function-name log_watcher --profile acorsi --log-type Tail --payload '{"key1":"value1", "key2":"value2", "key3":"value3"}' response.json | jq .LogResult | sed 's/"//g' | base64 --decode
+	aws lambda invoke --function-name log_watcher --profile default --log-type Tail --payload '{"key1":"value1", "key2":"value2", "key3":"value3"}' response.json | jq .LogResult | sed 's/"//g' | base64 --decode
 
 .PHONY: zip
 zip:

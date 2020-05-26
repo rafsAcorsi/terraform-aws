@@ -41,7 +41,7 @@ variable default_ingress {
     3306 = {
       description = "Inbound for mysql",
       cidr_blocks = [
-        "0.0.0.0/32"]
+        "0.0.0.0/0"]
     }
   }
 }

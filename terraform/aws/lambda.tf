@@ -1,6 +1,6 @@
 data "archive_file" "lambda_zip" {
   type = "zip"
-  output_path = "lambda/main.zip"
+  output_path = "main.zip"
   source_dir = "lambda"
 }
 
@@ -14,10 +14,9 @@ resource "aws_lambda_function" "log_watcher" {
   environment {
     variables = {
       ENV = local.exp_env
-      BUCKET_NAME = "${var.bucket_name}-${local.exp_env}}"
+      BUCKET_NAME = "${var.bucket_name}-${local.exp_env}"
       DB_NAME = "${var.db_name}${local.exp_env}"
       DB_IDENTIFIER = "${var.db_name}-${local.exp_env}"
-      PROFILE_NAME = var.aws_profile
     }
   }
 }

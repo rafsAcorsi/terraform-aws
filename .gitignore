@@ -6,3 +6,4 @@ response.json
 *terraform/aws/security.tfvars
 *venv
 __pycache__
+main.zip

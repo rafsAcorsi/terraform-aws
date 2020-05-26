@@ -1,7 +1,6 @@
 resource "aws_iam_policy" "policy" {
   name = "write_s3"
 
-
   policy = <<EOF
 {
   "Version": "2012-10-17",

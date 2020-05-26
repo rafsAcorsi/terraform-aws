@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "b" {
   bucket = "${var.bucket_name}-${local.exp_env}"
-  acl = "public-read-write"
+  acl = "private"
   force_destroy = "true"
 
   tags = {

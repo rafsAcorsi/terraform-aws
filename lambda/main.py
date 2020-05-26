@@ -12,7 +12,6 @@ import botocore
 DB_IDENTIFIER: str = os.getenv("DB_IDENTIFIER")
 DB_NAME: str = os.getenv("DB_NAME")
 BUCKET_NAME: str = os.getenv("BUCKET_NAME")
-PROFILE_NAME: str = os.getenv("PROFILE_NAME", "default")
 CONFIG_FILE: str = f"{DB_IDENTIFIER}.backup_config"
 
 logging.getLogger().setLevel(logging.INFO)
@@ -22,9 +21,8 @@ def create_session() -> Tuple[
     'boto3.resource.factory.rds.Instance',
     'boto3.resource.factory.s3.Instance'
 ]:
-    session = boto3.Session(profile_name=PROFILE_NAME)
-    rds = session.client("rds")
-    s3 = session.client('s3')
+    rds = boto3.client("rds")
+    s3 = boto3.client("s3")
 
     return rds, s3
 
@@ -90,6 +88,8 @@ class Executor:
 
     rds_client: 'boto3.resource.factory.rds.Instance'
     s3_instance: S3
+    file_name: str = ''
+    copied_file_count: int = 0
 
     def run(self):
         """loop the logs and save on s3"""
@@ -185,7 +185,9 @@ class Executor:
                     f"Uploaded log file {object_name} "
                     f"to S3 bucket {BUCKET_NAME}"
                 )
+                self.file_name = object_name
         logging.info(f"Copied {copied_file_count} file(s) to s3")
+        self.copied_file_count = copied_file_count
 
         # Update the last written time in the config
         if last_written_this_run > 0:
@@ -221,7 +223,12 @@ def lambda_handler(event, context):
         logging.error("S3 is not available")
         return {"Error": s3_is_not_available}
     s3_instance.get_last_written_time()
-    Executor(rds_client=rds_client, s3_instance=s3_instance).run()
+    executor = Executor(rds_client=rds_client, s3_instance=s3_instance)
+    executor.run()
+    return {
+        "file_output": executor.file_name,
+        "copied_file_count": executor.copied_file_count
+    }
 
 
 if __name__ == '__main__':

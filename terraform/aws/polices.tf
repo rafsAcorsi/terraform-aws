@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_role" {
-  name = "${var.app_name}-lambda-role"
+  name = "${var.app_name}-lambda-role-${local.exp_env}"
 
   assume_role_policy = <<EOF
 {
@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "rds_create_db" {
 
 
 resource "aws_iam_role_policy" "lambda_policy" {
-  name = "${var.app_name}-lambda-policy"
+  name = "${var.app_name}-lambda-policy-${local.exp_env}"
 
   role = aws_iam_role.lambda_role.id
 

@@ -13,7 +13,3 @@ output bucket-name {
 output db-name {
   value = aws_db_instance.db_default.name
 }
-
-output vpc_id {
-  value = aws_vpc.default.id
-}

@@ -1,4 +1,4 @@
-# Pré-requisitos
+### Pré-requisitos
 Todo o script foi feito usando um macOS
 
 |        Tool        |       Versão             |
@@ -17,7 +17,7 @@ Todo o script foi feito usando um macOS
 
 Passos pós instalaçāo do AWS CLI, obs: somente executar em caso de primeira instalaçāo
 
-#### Iniciar o AWS CLI
+### Iniciar o AWS CLI
 
 - `aws configure` e  inserir o AWS Access Key ID e AWS Secret Access Key
 
@@ -34,7 +34,7 @@ Policy Name|
 |AdministratorAccess        |
 ---
 
-## Variáveis de ambiente
+### <a name="envs">Variáveis de ambiente</a>
 
 Exportar variáveis abaixo
 
@@ -46,13 +46,19 @@ Exportar variáveis abaixo
 |db_user_password    | <db_user_password>       |
 |bucket_name         | <bucket_name>            |
 
-Uma forma simples de exportar as variáveis: 
+Uma forma simples de exportar as variáveis:
 
 Fazer uma cópia renomeando o arquivo `.env.example` para `.env` e substituir as variáveis, feito isso ao executar qualquer comando make <command> o arquivo de `.env` será carregado automaticamente.
 
 ---
 
-## Scripts Makefile
+### Scripts Makefile
 No diretório root da aplicação digite `make` e veja todos scripts possíveis
 
 Os scripts de criação do terraform usarão as variáveis de ambiente para criar o arquivo security.tfvars na pasta [terraform](terraform/aws)
+
+### Passos para execução
+
+* Clone este repositório
+* Exporte as variáveis conforme passo: [aqui](#envs)
+

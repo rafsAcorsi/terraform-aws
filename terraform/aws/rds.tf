@@ -12,8 +12,6 @@ resource "aws_db_instance" "db_default" {
   backup_retention_period = 0
   apply_immediately = true
   option_group_name = aws_db_option_group.db_options.name
-  vpc_security_group_ids = [aws_security_group.default.id]
-
 }
 
 resource "aws_db_option_group" "db_options" {

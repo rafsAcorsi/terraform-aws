@@ -14,6 +14,10 @@ output db-name {
   value = aws_db_instance.db_default.name
 }
 
-output vpc-name {
-  value = aws_security_group.default.vpc_id
+output vpc_id {
+  value = aws_vpc.default.id
+}
+
+output private_subnet_ids {
+  value = [aws_subnet.private.*.id]
 }

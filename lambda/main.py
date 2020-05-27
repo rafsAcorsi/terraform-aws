@@ -71,7 +71,7 @@ class S3:
         except botocore.exceptions.ClientError as e:
             error_code = int(e.response['ResponseMetadata']['HTTPStatusCode'])
             if error_code == 404:
-                logging.error(
+                logging.info(
                     "It appears this is the first log import, all files "
                     "will be retrieved from RDS"
                 )
@@ -100,7 +100,6 @@ class Executor:
         more_logs_remaining = True
         last_written_time = self.s3_instance.last_written_time
         backup_start_time = datetime.datetime.now()
-        backup_start_time.replace(hour=backup_start_time.hour + 3)
 
         while more_logs_remaining:
             db_logs = self.rds_client.describe_db_log_files(

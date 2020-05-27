@@ -4,18 +4,21 @@ provider "aws" {
   region = var.region
 }
 
-data "aws_vpc" "default" {
-  default = true
+resource "aws_vpc" "default" {
+  cidr_block = "10.10.0.0/16"
+  enable_dns_hostnames = true
 }
 
-data "aws_subnet_ids" "all" {
-  vpc_id = data.aws_vpc.default.id
+resource "aws_subnet" "private" {
+  cidr_block = var.cidr_default
+  vpc_id = aws_vpc.default.id
+  availability_zone = var.zone
 }
 
 resource "aws_security_group" "default" {
   name = "${var.app_name}-${local.exp_env}"
   description = "SG for access RDS"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = aws_vpc.default.id
 
   dynamic "ingress" {
     for_each = var.default_ingress

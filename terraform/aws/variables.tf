@@ -18,7 +18,11 @@ variable "region" {
   default = "us-east-1"
 }
 
-variable env {
+variable "zone" {
+  default = "us-east-1a"
+}
+
+variable "env" {
   type = map(string)
   description = "Map for environment"
   default = {
@@ -32,7 +36,11 @@ locals {
   exp_env = lookup(var.env, terraform.workspace)
 }
 
-variable default_ingress {
+variable "cidr_default" {
+  default = "10.10.10.0/24"
+}
+
+variable "default_ingress" {
   type = map(object({
     description = string,
     cidr_blocks = list(string)
@@ -40,8 +48,7 @@ variable default_ingress {
   default = {
     3306 = {
       description = "Inbound for mysql",
-      cidr_blocks = [
-        "0.0.0.0/0"]
+      cidr_blocks = ["10.10.10.0/24"]
     }
   }
 }

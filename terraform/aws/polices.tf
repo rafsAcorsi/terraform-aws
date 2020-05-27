@@ -1,31 +1,5 @@
-resource "aws_iam_policy" "policy" {
-  name = "write_s3"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-      {
-          "Effect": "Allow",
-          "Action": [
-              "logs:*"
-          ],
-          "Resource": "arn:aws:logs:*:*:*"
-      },
-      {
-          "Effect": "Allow",
-          "Action": [
-              "s3:*"
-          ],
-          "Resource": "arn:aws:s3:::*"
-      }
-  ]
-}
-EOF
-}
-
-resource "aws_iam_role" "iam_for_lambda" {
-  name = "iam_for_lambda"
+resource "aws_iam_role" "lambda_role" {
+  name = "${var.app_name}-lambda-role"
 
   assume_role_policy = <<EOF
 {
@@ -42,4 +16,25 @@ resource "aws_iam_role" "iam_for_lambda" {
   ]
 }
 EOF
+}
+
+data "aws_iam_policy_document" "rds_create_db" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "logs:*",
+      "s3:*",
+      "rds:*"
+    ]
+    resources = ["*"]
+  }
+}
+
+
+resource "aws_iam_role_policy" "lambda_policy" {
+  name = "${var.app_name}-lambda-policy"
+
+  role = aws_iam_role.lambda_role.id
+
+  policy = data.aws_iam_policy_document.rds_create_db.json
 }

@@ -7,9 +7,14 @@ data "archive_file" "lambda_zip" {
 resource "aws_lambda_function" "log_watcher" {
   filename = data.archive_file.lambda_zip.output_path
   function_name = "${var.lambda_function_name}-${local.exp_env}"
-  role = aws_iam_role.iam_for_lambda.arn
+  role = aws_iam_role.lambda_role.arn
   handler = var.lambda_handler
   runtime = "python3.7"
+
+  vpc_config {
+    security_group_ids = [aws_security_group.default.id]
+    subnet_ids = [aws_subnet.private.id]
+  }
 
   environment {
     variables = {

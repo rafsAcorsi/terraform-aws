@@ -9,11 +9,6 @@ resource "aws_vpc" "default" {
   enable_dns_hostnames = true
 }
 
-resource "aws_subnet" "private" {
-  cidr_block = var.cidr_default
-  vpc_id = aws_vpc.default.id
-  availability_zone = var.zone
-}
 
 resource "aws_security_group" "default" {
   name = "${var.app_name}-${local.exp_env}"

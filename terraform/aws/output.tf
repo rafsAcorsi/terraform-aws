@@ -17,7 +17,3 @@ output db-name {
 output vpc_id {
   value = aws_vpc.default.id
 }
-
-output private_subnet_ids {
-  value = [aws_subnet.private.*.id]
-}

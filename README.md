@@ -1,7 +1,15 @@
 # Pré-requisitos
 Todo o script foi feito usando um macOS
 
-- [Python3.7>~](https://www.python.org/downloads/)
+|        Tool        |       Versão             |
+|--------------------|--------------------------|
+|Python              |       3.7.5              |
+|Terraform           | Terraform v0.12.25       |
+|provider.archive    | v1.3.0                   |
+|provider.aws        | v2.63.0                  |
+|AWS CLI             | 1.18.66                  |
+
+- [Python](https://www.python.org/downloads/)
 - [Terraform](https://www.terraform.io/downloads.html)
 - [Conta na AWS](https://console.aws.amazon.com/)
 ---
@@ -38,8 +46,13 @@ Exportar variáveis abaixo
 |db_user_password    | <db_user_password>       |
 |bucket_name         | <bucket_name>            |
 
+Uma forma simples de exportar as variáveis: 
+
+Fazer uma cópia renomeando o arquivo `.env.example` para `.env` e substituir as variáveis, feito isso ao executar qualquer comando make <command> o arquivo de `.env` será carregado automaticamente.
+
 ---
 
 ## Scripts Makefile
 No diretório root da aplicação digite `make` e veja todos scripts possíveis
 
+Os scripts de criação do terraform usarão as variáveis de ambiente para criar o arquivo security.tfvars na pasta [terraform](terraform/aws)

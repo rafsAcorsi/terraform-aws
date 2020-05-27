@@ -7,3 +7,4 @@ response.json
 *venv
 __pycache__
 main.zip
+.env

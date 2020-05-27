@@ -11,11 +11,6 @@ resource "aws_lambda_function" "log_watcher" {
   handler = var.lambda_handler
   runtime = "python3.7"
 
-  vpc_config {
-    security_group_ids = [aws_security_group.default.id]
-    subnet_ids = [aws_subnet.private.id]
-  }
-
   environment {
     variables = {
       ENV = local.exp_env

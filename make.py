@@ -2,6 +2,7 @@
 import argparse
 import os
 import subprocess
+from functools import partial
 
 SECURITY_PATH = "terraform/aws/security.tfvars"
 AWS_PROFILE = os.getenv("AWS_PROFILE")
@@ -11,13 +12,53 @@ DB_USER_PASSWORD = os.getenv("DB_USER_PASSWORD")
 AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME")
 
 
+def check_env_variables():
+    if not all([
+        AWS_PROFILE, DB_NAME, DB_USER_NAME, DB_USER_PASSWORD, AWS_BUCKET_NAME
+    ]):
+        print(
+            "\n\nPlease export env variables, check README.md on root path\n\n"
+        )
+        return False
+    return True
+
+
 def check_security_vars(func):
-    def wrapper():
+    """Decorator for check security vars"""
+
+    def wrapper(*args):
         if not security_vars_exists():
             create_security_vars()
-        func()
+        if not check_env_variables():
+            return
+        func(*args)
 
     return wrapper
+
+
+@check_security_vars
+def terraform_apply(env=None):
+    """Terraform Apply check security first"""
+    workspace = subprocess.run(
+        ["terraform", "workspace", "list"],
+        capture_output=True
+    )
+    command = "new"
+    if env in workspace.stdout.decode():
+        command = "select"
+
+    subprocess.call(["terraform", "workspace", command, env])
+
+    subprocess.call([
+        "terraform",
+        "apply",
+        "-var-file=terraform/aws/security.tfvars",
+        "terraform/aws"
+    ])
+
+
+terraform_apply_dev = partial(terraform_apply, "dev")
+terraform_apply_prod = partial(terraform_apply, "prod")
 
 
 def security_vars_exists():
@@ -26,13 +67,6 @@ def security_vars_exists():
 
 
 def create_security_vars():
-    if not all([
-        AWS_PROFILE, DB_NAME, DB_USER_NAME, DB_USER_PASSWORD, AWS_BUCKET_NAME
-    ]):
-        print(
-            "\n\nPlease export env variables, check README.md on root path\n\n"
-        )
-        return
     template = """
 aws_profile         = "{0}"
 db_name             = "{1}"
@@ -43,17 +77,6 @@ bucket_name         = "{4}" """.format(
     ).lstrip()
     with open(SECURITY_PATH, "w+") as file:
         file.write(template)
-
-
-@check_security_vars
-def terraform_apply():
-    """Terraform Apply check security first"""
-    return subprocess.call([
-        "terraform",
-        "apply",
-        "-var-file=terraform/aws/security.tfvars",
-        "terraform/aws"
-    ])
 
 
 @check_security_vars
@@ -104,10 +127,11 @@ def lambda_invoke():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Make script')
     parser_map = {
-        'apply': terraform_apply,
         'destroy': terraform_destroy,
         'init': terraform_init,
-        'invoke': lambda_invoke
+        'invoke': lambda_invoke,
+        'prod': terraform_apply_prod,
+        'dev': terraform_apply_dev
     }
 
     parser.add_argument('command', choices=parser_map.keys())

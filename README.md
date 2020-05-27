@@ -1,6 +1,6 @@
 ### Pré-requisitos
 Todo o script foi feito usando um macOS
-
+<a name="first"></a>
 |        Tool        |       Versão             |
 |--------------------|--------------------------|
 |Python              |       3.7.5              |
@@ -59,6 +59,15 @@ Os scripts de criação do terraform usarão as variáveis de ambiente para cria
 
 ### Passos para execução
 
+* Executados os primeiros passos [aqui](#first)
 * Clone este repositório
 * Exporte as variáveis conforme passo: [aqui](#envs)
+* Execute `make init`
+* Feito isso você já consegue executar a criação dos ambientes de `dev`  e `prod`
+* Você também consegue forçar a execução do lambda com o comando `make invoke`
+* Agora basta checar no bucket os arquivos de `audit`
 
+
+### Arquitetura
+
+![arch](docs/arch.png)

@@ -4,7 +4,7 @@ data "archive_file" "lambda_zip" {
   source_dir = "lambda"
 }
 
-resource "aws_lambda_function" "log_watcher" {
+resource "aws_lambda_function" "lambda" {
   filename = data.archive_file.lambda_zip.output_path
   function_name = "${var.lambda_function_name}-${local.exp_env}"
   role = aws_iam_role.lambda_role.arn

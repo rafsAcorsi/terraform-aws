@@ -57,8 +57,6 @@ No diretório root da aplicação digite `make` e veja todos scripts possíveis
 
 Os scripts de criação do terraform usarão as variáveis de ambiente para criar o arquivo security.tfvars na pasta [terraform](terraform/aws)
 
-Para executar os testes em python usar o comando `make test`
-
 ### Passos para execução
 
 * Executados os primeiros passos [aqui](#first)
@@ -68,8 +66,11 @@ Para executar os testes em python usar o comando `make test`
 * Feito isso você já consegue executar a criação dos ambientes de `dev`  e `prod`
 * Você também consegue forçar a execução do lambda com o comando `make invoke`
 * Agora basta checar no bucket os arquivos de `audit`
+* A única dependência do projeto `boto3==1.13.16` esta no aquivo de [requirements.txt](lambda_func/requirements.txt)
+* Para instalar basta executar pip install -r requirements.txt na pasta [lambda_func](lambda_func)
 
 
 ### Arquitetura
 
 ![arch](docs/arch.png)
+

@@ -17,7 +17,7 @@ resource "aws_db_instance" "db_default" {
 resource "aws_db_option_group" "db_options" {
   engine_name = var.db_engine
   major_engine_version = var.db_version
-  name = "db-option"
+  name = "db-option-${local.exp_env}"
 
   # Enable RDS audit for mysql
   option {

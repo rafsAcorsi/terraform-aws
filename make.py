@@ -13,13 +13,20 @@ AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME")
 
 
 def check_env_variables():
-    if not all([
+    all_env = all([
         AWS_PROFILE, DB_NAME, DB_USER_NAME, DB_USER_PASSWORD, AWS_BUCKET_NAME
-    ]):
+    ])
+    env_exists = os.path.exists(".env")
+    if not all_env and not env_exists:
         print(
-            "\n\nPlease export env variables, check README.md on root path\n\n"
+            "\n\nPlease create .env file, check README.md on root path\n\n"
         )
         return False
+    elif env_exists:
+        with open(".env", "r") as file:
+            for line in file.readlines():
+                key, value = line.strip().split("=")
+                os.environ[key] = value
     return True
 
 
@@ -27,10 +34,10 @@ def check_security_vars(func):
     """Decorator for check security vars"""
 
     def wrapper(*args):
-        if not security_vars_exists():
-            create_security_vars()
         if not check_env_variables():
             return
+        if not security_vars_exists():
+            create_security_vars()
         func(*args)
 
     return wrapper

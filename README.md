@@ -57,6 +57,8 @@ No diretório root da aplicação digite `make` e veja todos scripts possíveis
 
 Os scripts de criação do terraform usarão as variáveis de ambiente para criar o arquivo security.tfvars na pasta [terraform](terraform/aws)
 
+Para executar os testes em python usar o comando `make test`
+
 ### Passos para execução
 
 * Executados os primeiros passos [aqui](#first)

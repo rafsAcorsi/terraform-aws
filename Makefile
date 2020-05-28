@@ -13,6 +13,7 @@ help:
 	@echo "   2. make dev                             	- Run terraform apply with workspace dev"
 	@echo "   3. make destroy                           - Destroy terraform destroy"
 	@echo "   4. make invoke                            - Invoke Lambda"
+	@echo "   4. make test                              - Run python tests"
 
 .PHONY: init
 init:
@@ -33,3 +34,7 @@ destroy:
 .PHONY: invoke
 invoke:
 	python make.py invoke
+
+.PHONY: test
+test:
+	python make.py test

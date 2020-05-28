@@ -124,6 +124,13 @@ def lambda_invoke():
         'response.json'])
 
 
+def run_test():
+    import unittest
+    from lambda_func.test import test_aws_api
+    suite = unittest.TestLoader().loadTestsFromModule(test_aws_api)
+    unittest.TextTestRunner().run(suite)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Make script')
     parser_map = {
@@ -131,7 +138,8 @@ if __name__ == '__main__':
         'init': terraform_init,
         'invoke': lambda_invoke,
         'prod': terraform_apply_prod,
-        'dev': terraform_apply_dev
+        'dev': terraform_apply_dev,
+        'test': run_test
     }
 
     parser.add_argument('command', choices=parser_map.keys())

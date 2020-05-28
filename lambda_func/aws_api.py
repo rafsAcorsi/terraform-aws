@@ -4,27 +4,14 @@ import json
 import logging
 import os
 from dataclasses import dataclass
-from typing import Tuple
 
 import boto3
 import botocore
 
-DB_IDENTIFIER: str = os.getenv("DB_IDENTIFIER")
-DB_NAME: str = os.getenv("DB_NAME")
-BUCKET_NAME: str = os.getenv("BUCKET_NAME")
-CONFIG_FILE: str = f"{DB_IDENTIFIER}.backup_config"
-
-logging.getLogger().setLevel(logging.INFO)
-
-
-def create_session() -> Tuple[
-    'boto3.resource.factory.rds.Instance',
-    'boto3.resource.factory.s3.Instance'
-]:
-    rds = boto3.client("rds")
-    s3 = boto3.client("s3")
-
-    return rds, s3
+BUCKET_NAME = os.getenv("BUCKET_NAME")
+DB_IDENTIFIER = os.getenv("DB_IDENTIFIER")
+DB_NAME = os.getenv("DB_NAME")
+CONFIG_FILE = f"{DB_IDENTIFIER}.backup_config"
 
 
 @dataclass
@@ -185,7 +172,6 @@ class Executor:
 
     def download_all_log_files(self):
         """Download all log files, filter by audit type"""
-        more_logs_remaining = True
         self.db_logs = self.rds_client.describe_db_log_files(
             DBInstanceIdentifier=DB_IDENTIFIER,
             FileLastWritten=self.s3_instance.last_written_time,
@@ -242,27 +228,3 @@ class Executor:
             f"Wrote new Last Written file to {CONFIG_FILE} "
             f"in Bucket {BUCKET_NAME}"
         )
-
-
-def lambda_handler(event, context):
-    """Lambda handler"""
-
-    rds_client, s3_client = create_session()
-    s3_instance = S3(client=s3_client)
-    s3_is_not_available = s3_instance.is_not_available()
-
-    if s3_is_not_available:
-        logging.error("S3 is not available")
-        return {"Error": s3_is_not_available}
-    s3_instance = s3_instance.get_last_written_time()
-    executor = Executor(rds_client=rds_client, s3_instance=s3_instance)
-    executor.run()
-    return {
-        "file_output": executor.file_name,
-        "copied_file_count": executor.copied_file_count
-    }
-
-
-if __name__ == '__main__':
-    event, context = [], []
-    lambda_handler(event, context)

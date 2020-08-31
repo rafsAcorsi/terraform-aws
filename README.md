@@ -74,3 +74,4 @@ Os scripts de criação do terraform usarão as variáveis de ambiente para cria
 
 ![arch](docs/arch.png)
 
+T
